@@ -14,3 +14,5 @@ doc/api/
 
 # jetbrains系列配置文件
 .idea
+
+node_modules
