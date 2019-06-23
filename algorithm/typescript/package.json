@@ -1,0 +1,14 @@
+{
+  "name": "typescript-algorithm",
+  "version": "1.0.0",
+  "description": "typescript algorithm",
+  "main": "index.ts",
+  "author": "bluewaitor",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^3.5.1"
+  },
+  "scripts": {
+    "start": "tsc index.ts"
+  }
+}
