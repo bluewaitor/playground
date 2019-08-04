@@ -1,0 +1,12 @@
+{
+  "name": "tsconfig",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "sh clearBuild.sh && tsc"
+  },
+  "devDependencies": {
+    "typescript": "^3.5.2"
+  }
+}
