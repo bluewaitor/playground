@@ -9,6 +9,6 @@
     "typescript": "^3.5.1"
   },
   "scripts": {
-    "start": "tsc index.ts"
+    "start": "tsc"
   }
 }
