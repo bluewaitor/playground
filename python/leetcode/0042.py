@@ -1,3 +1,4 @@
+# 42. 接雨水
 from typing import List
 
 
