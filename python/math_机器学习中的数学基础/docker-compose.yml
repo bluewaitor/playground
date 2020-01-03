@@ -1,0 +1,11 @@
+version: '3'
+services:
+  math:
+    image: 'jupyter/scipy-notebook'
+    working_dir: /code
+    volumes:
+      - .:/code
+    ports:
+      - '8888:8888'
+    environment:
+      - JUPYTER_ENABLE_LAB=true
