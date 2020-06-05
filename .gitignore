@@ -18,3 +18,4 @@ doc/api/
 node_modules
 yarn-error.log
 .history
+.vscode
