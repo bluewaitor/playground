@@ -18,9 +18,15 @@ void executeGo(const char *noun) {
     printf("I don't understand where you want to go.\n");
   } else if (obj == player->location) {
     printf("You are already there.\n");
-  } else {
+  } else if (getPassageTo(obj) != NULL) {
     printf("OK.\n");
     player->location = obj;
     executeLook("around");
+  } else if (obj->location == player->location && obj->destination != NULL) {
+    printf("OK.\n");
+    player->location = obj->destination;
+    executeLook("around");
+  } else {
+    printf("You can't go there.\n");
   }
 }
