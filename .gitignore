@@ -19,3 +19,4 @@ node_modules
 yarn-error.log
 .history
 .vscode
+.DS_Store
