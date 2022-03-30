@@ -20,3 +20,5 @@ yarn-error.log
 .history
 .vscode
 .DS_Store
+
+nohup.out
