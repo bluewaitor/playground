@@ -2,9 +2,6 @@
   "compilerOptions": {
     "outDir": "./build",
     "target": "es2015",
-    "module": "none"
+    "module": "esnext",
   },
-  "files": [
-    "index.ts"
-  ]
 }
