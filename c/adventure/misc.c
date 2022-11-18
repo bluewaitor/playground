@@ -3,52 +3,96 @@
 #include "object.h"
 #include "misc.h"
 
-OBJECT *getPassageTo(OBJECT *targetLocation) {
-  OBJECT *obj;
-  for (obj = objs; obj < endOfObjs; obj++) {
-    if (obj->location == player->location && obj->destination == targetLocation) {
-      return obj;
+OBJECT *getPassageTo(OBJECT *targetLocation)
+{
+    OBJECT *obj;
+    forEachObject(obj)
+    {
+        if (obj->location == player->location &&
+            obj->prospect == targetLocation)
+        {
+            return obj;
+        }
     }
-  }
-
-  return NULL;
+    return NULL;
 }
 
-OBJECT *parseObject(const char *noun) {
-  OBJECT *obj, *found = NULL;
-  for (obj = objs; obj < endOfObjs; obj++)
-  {
-    if (noun != NULL && strcmp(noun, obj->tag) == 0) {
-      found = obj;
-    }
-  }
-
-  return found;
+DISTANCE distanceTo(OBJECT *obj)
+{
+    return !validObject(obj) ? distUnknownObject : obj == player                             ? distPlayer
+                                               : obj == player->location                     ? distLocation
+                                               : obj->location == player                     ? distHeld
+                                               : obj->location == player->location           ? distHere
+                                               : getPassageTo(obj) != NULL                   ? distOverThere
+                                               : !validObject(obj->location)                 ? distNotHere
+                                               : obj->location->location == player           ? distHeldContained
+                                               : obj->location->location == player->location ? distHereContained
+                                                                                             : distNotHere;
 }
 
-OBJECT *personHere(void) {
-  OBJECT *obj;
-  
-  for (obj = objs; obj < endOfObjs; obj++) {
-    if (obj->location == player->location && obj == guard) {
-      return obj;
+static int nounIsInTags(const char *noun, const char **tags)
+{
+    while (*tags != NULL)
+    {
+        if (strcmp(noun, *tags++) == 0)
+            return 1;
     }
-  }
-
-  return NULL;
+    return 0;
 }
 
-int listObjectsAtLocation(OBJECT *location) {
-  int count = 0;
-  OBJECT *obj;
-  for (obj = objs; obj < endOfObjs; obj ++) {
-    if (obj != player && obj->location == location) {
-      if (count++ == 0) {
-        printf("You see: \n");
-      }
-      printf("%s\n", obj-> description);
+OBJECT *parseObject(const char *noun)
+{
+    OBJECT *obj, *found = NULL;
+    forEachObject(obj)
+    {
+        if (noun != NULL && nounIsInTags(noun, obj->tags) &&
+            distanceTo(obj) < distanceTo(found))
+        {
+            found = obj;
+        }
     }
-  }
+    return found;
+}
 
-  return count;
+OBJECT *personHere(void)
+{
+    OBJECT *obj;
+    forEachObject(obj)
+    {
+        if (distanceTo(obj) == distHere && obj->health > 0)
+        {
+            return obj;
+        }
+    }
+    return NULL;
+}
+
+int listObjectsAtLocation(OBJECT *location)
+{
+    int count = 0;
+    OBJECT *obj;
+    forEachObject(obj)
+    {
+        if (obj != player && obj->location == location)
+        {
+            if (count++ == 0)
+            {
+                printf("%s:\n", location->contents);
+            }
+            printf("%s\n", obj->description);
+        }
+    }
+    return count;
+}
+
+int weightOfContents(OBJECT *container)
+{
+    int sum = 0;
+    OBJECT *obj;
+    forEachObject(obj)
+    {
+        if (obj->location == container)
+            sum += obj->weight;
+    }
+    return sum;
 }
