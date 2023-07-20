@@ -1,0 +1,4 @@
+DIR_NAME=$1
+FILE_NAME=$2
+
+rm -f ./$DIR_NAME/*.o ./$DIR_NAME/$FILE_NAME
